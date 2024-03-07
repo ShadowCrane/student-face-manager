@@ -6,6 +6,13 @@ group = 'cn.shadowtranx.sfm'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    maven {
+        url 'https://maven.aliyun.com/repository/public/'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/spring/'
+    }
+    mavenLocal()
     mavenCentral()
 }
 
