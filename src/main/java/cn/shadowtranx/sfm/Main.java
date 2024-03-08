@@ -2,7 +2,7 @@ package cn.shadowtranx.sfm;
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.net.URL;
 
 
 public class Main {
@@ -36,7 +36,15 @@ public class Main {
         sfma.setSize(width,height);
         System.out.println(width);
         System.out.println(height);
-        log.msg("你好");
+        log.msg("好了，创建完成了 ");//
+        log.msg("这里的编码本来有问题的，然后我发现在字符串后面加个空格就行了 ");//
+        log.msg("接下来，是幻想时刻（doge");//
+        //神知道我自己创建个xml文档（（//
+        //为了适配opencv//
+//
+//
+        URL url = ClassLoader.getSystemResource("student-face-manager/src/resources/opencv-480.jar");//这里跑不//
+        System.load(url.getPath());//
 
 
 
