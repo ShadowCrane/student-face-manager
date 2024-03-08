@@ -1,3 +1,1 @@
-It is a niubi's project,to help this student don't really in the class.
-This project is made by ShadowTranxStudio
-In the start,this studio is a game studio....
+
