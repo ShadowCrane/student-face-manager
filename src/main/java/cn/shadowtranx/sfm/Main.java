@@ -13,14 +13,17 @@ public class Main {
         //乐了，写了个log，接下来写这
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
+
         //虽然忘记这个toolkit干啥用的，但之前我写过，但应该是要的:)
         int width = screenSize.width;
         
         int height= screenSize.height;
 
-        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//妈了个巴子只能依靠这个了，shadow别乱搞
+        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//妈了个巴子只能依靠这个了
+
         sfma.setVisible(true);
         sfma.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        sfma.setIconImage(new ImageIcon("C:/Users/apple/Desktop/Cprogramme/project/student-face-manager/src/main/resources/image/icon.png").getImage());
         String swidth = String.valueOf(width);
         String sheight = String.valueOf(height);
 
@@ -41,8 +44,9 @@ public class Main {
         log.msg("接下来，是幻想时刻（doge");//
         //神知道我自己创建个xml文档（（//
         //为了适配opencv//
-//
-//
+
+
+
         URL url = ClassLoader.getSystemResource("student-face-manager/src/resources/opencv-480.jar");//这里跑不//
         System.load(url.getPath());//
 
