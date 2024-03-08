@@ -18,7 +18,7 @@ public class Main {
         
         int height= screenSize.height;
 
-        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//妈了个巴子只能依靠这个了，shadow别乱改
+        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//妈了个巴子只能依靠这个了，shadow别乱搞
         sfma.setVisible(true);
         sfma.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         String swidth = String.valueOf(width);
