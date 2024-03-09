@@ -2,7 +2,7 @@ package cn.shadowtranx.sfm;
 
 import javax.swing.*;
 import java.awt.*;
-import org.opencv.core.Core;
+import org.opencv.core.*;
 //终于成功了，crane你屁事不干你414
 //四了，这bug你修吧
 
