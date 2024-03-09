@@ -2,7 +2,8 @@ package cn.shadowtranx.sfm;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
+
+
 
 
 public class Main {
@@ -47,8 +48,6 @@ public class Main {
 
 
 
-        URL url = ClassLoader.getSystemResource("student-face-manager/src/resources/opencv-480.jar");//这里跑不//
-        System.load(url.getPath());//
 
 
 
