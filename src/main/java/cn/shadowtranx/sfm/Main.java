@@ -2,25 +2,27 @@ package cn.shadowtranx.sfm;
 
 import javax.swing.*;
 import java.awt.*;
-
-
+import org.opencv.core.Core;
+//终于成功了，crane你屁事不干你414
+//四了，这bug你修吧
 
 
 public class Main {
 
     public static void main(String[] args) {
-        log.msg("铏界劧涓嶇煡閬撹繖涓猯og鏈夊暐鐢紝浣嗘槸杩樻槸鎯冲啓[鍚愯垖]");
-        log.msg("绛変竴绛夊晩锛岀埅鍝囧湪鍔姏鍒涘缓绐楀彛锛岄棽鐨勮瘽灏遍棽鍚э細>");
-        //涔愪簡锛屽啓浜嗕釜log锛屾帴涓嬫潵鍐欒繖
+        log.msg("虽然不知道这个log有啥用，但是还是想写[吐舌]");
+        log.msg("等一等啊，爪哇在努力创建窗口，闲的话就闲吧：>");
+        //乐了，写了个log，接下来写这
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
 
-        //铏界劧蹇樿杩欎釜toolkit骞插暐鐢ㄧ殑锛屼絾涔嬪墠鎴戝啓杩囷紝浣嗗簲璇ユ槸瑕佺殑:)
+        //虽然忘记这个toolkit干啥用的，但之前我写过，但应该是要的:)
+        //想起来了，添加图标用
         int width = screenSize.width;
         
         int height= screenSize.height;
 
-        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//濡堜簡涓反瀛愬彧鑳戒緷闈犺繖涓簡
+        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//妈了个巴子只能依靠这个了
 
         sfma.setVisible(true);
         sfma.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -40,11 +42,12 @@ public class Main {
         sfma.setSize(width,height);
         System.out.println(width);
         System.out.println(height);
-        log.msg("濂戒簡锛屽垱寤哄畬鎴愪簡 ");//
-        log.msg("杩欓噷鐨勭紪鐮佹湰鏉ユ湁闂鐨勶紝鐒跺悗鎴戝彂鐜板湪瀛楃涓插悗闈㈠姞涓┖鏍煎氨琛屼簡 ");//
-        log.msg("鎺ヤ笅鏉ワ紝鏄够鎯虫椂鍒伙紙doge");//
-        //绁炵煡閬撴垜鑷繁鍒涘缓涓獂ml鏂囨。锛堬紙//
-        //涓轰簡閫傞厤opencv//
+        log.msg("好了，创建完成了 ");//
+        log.msg("这里的编码本来有问题的，然后我发现在字符串后面加个空格就行了 ");//
+        log.msg("接下来，是幻想时刻（doge");//
+        //神知道我自己创建个xml文档（（//
+        //为了适配opencv//
+
 
 
 
