@@ -1,52 +1,55 @@
 package cn.shadowtranx.sfm;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
-import org.opencv.core.*;
-//ÖÕÓÚ³É¹¦ÁË£¬craneÄãÆ¨ÊÂ²»¸ÉÄã414
-//ËÄÁË£¬ÕâbugÄãĞŞ°É
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Objects;
+// å†™æ—¥è®°çš„ æ‹‰å»æ–‡é©æ‰¹æ–—äº†
 
 
 public class Main {
 
+    public static final String NAME = "Student-Face-Manager";
+    public static final String VERSION = "v1.0";
+    public static final String OWNER = "ShadowTranX-Team";
+
+    public static Logger logger = LogManager.getLogger("SFM");
+
     public static void main(String[] args) {
-        log.msg("ËäÈ»²»ÖªµÀÕâ¸ölogÓĞÉ¶ÓÃ£¬µ«ÊÇ»¹ÊÇÏëĞ´[ÍÂÉà]");
-        log.msg("µÈÒ»µÈ°¡£¬×¦ÍÛÔÚÅ¬Á¦´´½¨´°¿Ú£¬ÏĞµÄ»°¾ÍÏĞ°É£º>");
-        //ÀÖÁË£¬Ğ´ÁË¸ölog£¬½ÓÏÂÀ´Ğ´Õâ
+        logger.info(NAME + " " + VERSION + "Loading. By " + OWNER);
+        // Toolkit
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
 
-        //ËäÈ»Íü¼ÇÕâ¸ötoolkit¸ÉÉ¶ÓÃµÄ£¬µ«Ö®Ç°ÎÒĞ´¹ı£¬µ«Ó¦¸ÃÊÇÒªµÄ:)
-        //ÏëÆğÀ´ÁË£¬Ìí¼ÓÍ¼±êÓÃ
-        int width = screenSize.width;
-        
-        int height= screenSize.height;
+        // Get screen size
+        double width = screenSize.width;
+        double height = screenSize.height;
 
-        JFrame sfma = new JFrame("\u7f51\u8bfe\u5b66\u751f\u7ba1\u7406\u5927\u5e08");//ÂèÁË¸ö°Í×ÓÖ»ÄÜÒÀ¿¿Õâ¸öÁË
+        // Computing window size
+        width = width * 0.33333;
+        height = height * 0.37037;
+        width = Math.round(width);
+        height = Math.round(height);
 
-        sfma.setVisible(true);
-        sfma.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        sfma.setIconImage(new ImageIcon("C:/Users/apple/Desktop/Cprogramme/project/student-face-manager/src/main/resources/image/icon.png").getImage());
-        String swidth = String.valueOf(width);
-        String sheight = String.valueOf(height);
+        // Create window
+        JFrame sfmWindow = new JFrame("ç½‘è¯¾å­¦ç”Ÿç®¡ç†å¤§å¸ˆ");
 
-        Double dwidth = Double.valueOf(width);
-        Double dheight = Double.valueOf(height);
+        URL url = Main.class.getClassLoader().getResource("image/icon.png");
+        if (url != null)
+            sfmWindow.setIconImage(new ImageIcon(url.getPath()).getImage()); // YOUR Stupid Code had FIXED!!
 
-        dwidth = dwidth * 0.33333;
-        dheight = dheight * 0.37037;
-        width = (int) Math.round(dwidth);
-        height = (int) Math.round(dheight);
-        log.msg(swidth);
-        log.msg(sheight);
-        sfma.setSize(width,height);
-        System.out.println(width);
-        System.out.println(height);
-        log.msg("ºÃÁË£¬´´½¨Íê³ÉÁË ");//
-        log.msg("ÕâÀïµÄ±àÂë±¾À´ÓĞÎÊÌâµÄ£¬È»ºóÎÒ·¢ÏÖÔÚ×Ö·û´®ºóÃæ¼Ó¸ö¿Õ¸ñ¾ÍĞĞÁË ");//
-        log.msg("½ÓÏÂÀ´£¬ÊÇ»ÃÏëÊ±¿Ì£¨doge");//
-        //ÉñÖªµÀÎÒ×Ô¼º´´½¨¸öxmlÎÄµµ£¨£¨//
-        //ÎªÁËÊÊÅäopencv//
+        sfmWindow.setVisible(true);
+        sfmWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        // Set window size
+        sfmWindow.setSize((int) width,(int) height);
+        logger.info("Window has been creating.");
+
+        // OpenCV
 
 
 
