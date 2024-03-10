@@ -13,6 +13,8 @@ import org.bytedeco.opencv.opencv_core.Point;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.Objects;
+
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
 
 
@@ -65,12 +67,12 @@ public class Main {
         // 加载人脸检测器和姿态估计器
         CascadeClassifier faceDetector = new CascadeClassifier();
         CascadeClassifier eyeDetector = new CascadeClassifier();
-        faceDetector.load(Main.class.getResource("/haarcascade_frontalface_default.xml").getPath().startsWith("/") ?
-                Main.class.getResource("/haarcascade_frontalface_default.xml").getPath().substring(1) :
-                Main.class.getResource("/haarcascade_frontalface_default.xml").getPath());
-        eyeDetector.load(Main.class.getResource("/haarcascade_eye.xml").getPath().startsWith("/") ?
-                Main.class.getResource("/haarcascade_eye.xml").getPath().substring(1) :
-                Main.class.getResource("/haarcascade_eye.xml").getPath());
+        faceDetector.load(Objects.requireNonNull(Main.class.getResource("/haarcascade_frontalface_default.xml")).getPath().startsWith("/") ?
+                Objects.requireNonNull(Main.class.getResource("/haarcascade_frontalface_default.xml")).getPath().substring(1) :
+                Objects.requireNonNull(Main.class.getResource("/haarcascade_frontalface_default.xml")).getPath());
+        eyeDetector.load(Objects.requireNonNull(Main.class.getResource("/haarcascade_eye.xml")).getPath().startsWith("/") ?
+                Objects.requireNonNull(Main.class.getResource("/haarcascade_eye.xml")).getPath().substring(1) :
+                Objects.requireNonNull(Main.class.getResource("/haarcascade_eye.xml")).getPath());
 
 
 
@@ -122,7 +124,7 @@ public class Main {
             }
 
             BufferedImage image = matToBufferedImage(frameMat);
-            ImageIcon icon = new ImageIcon(image);
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(image));
             label.setIcon(icon);
         }
     }
