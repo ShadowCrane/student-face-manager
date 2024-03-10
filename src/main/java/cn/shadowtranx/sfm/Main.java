@@ -47,7 +47,7 @@ public class Main {
 
         // Set window size
         sfmWindow.setSize((int) width,(int) height);
-        logger.info("Window has been creating.");
+        logger.info("The window is created.");
 
         // OpenCV
 
