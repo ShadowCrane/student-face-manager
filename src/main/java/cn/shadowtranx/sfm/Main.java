@@ -2,15 +2,8 @@ package cn.shadowtranx.sfm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.Loader;
-import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameConverter;
-import org.bytedeco.opencv.global.opencv_core;
-import org.bytedeco.opencv.global.opencv_highgui;
 import org.bytedeco.opencv.opencv_core.*;
-import org.bytedeco.opencv.global.opencv_objdetect;
-import org.bytedeco.javacpp.Loader;
 import org.bytedeco.opencv.opencv_objdetect.CascadeClassifier;
 import org.bytedeco.opencv.opencv_videoio.VideoCapture;
 
@@ -19,20 +12,8 @@ import java.awt.*;
 import org.bytedeco.opencv.opencv_core.Point;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.util.Objects;
-
-import static org.bytedeco.opencv.global.opencv_core.CV_8UC4;
-import static org.bytedeco.opencv.global.opencv_cudaimgproc.cvtColor;
-import static org.bytedeco.opencv.global.opencv_highgui.imshow;
-import static org.bytedeco.opencv.global.opencv_highgui.waitKey;
-import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
-import static org.bytedeco.opencv.global.opencv_imgcodecs.imwrite;
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
-// 写日记的 拉去文革批斗了
 
 
 public class Main {
