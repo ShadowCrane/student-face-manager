@@ -41,7 +41,7 @@ public class Main {
         height = Math.round(height);
 
         // Create window
-        JFrame sfmWindow = new JFrame("网课管理大师");
+        JFrame sfmWindow = new JFrame(NAME + " " + VERSION);
         JLabel label = new JLabel();
         sfmWindow.add(label);
 

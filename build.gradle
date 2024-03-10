@@ -27,10 +27,6 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.23.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.23.0'
 
-    implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4'
-    implementation 'org.bytedeco.javacpp-presets:opencv-platform:4.0.1-1.4.4'
-    implementation 'org.bytedeco:ffmpeg:6.1.1-1.5.10'
-    implementation 'org.bytedeco:ffmpeg-platform:6.1.1-1.5.10'
     implementation 'org.bytedeco:javacv:1.5.10'
     implementation 'org.bytedeco:javacv-platform:1.5.10'
 
