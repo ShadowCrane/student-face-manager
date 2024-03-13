@@ -18,7 +18,6 @@ import org.opencv.videoio.Videoio;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -58,10 +57,35 @@ public class Main {
         JLabel label = new JLabel();
         sfmWindow.add(label);
 
-        URL url = Main.class.getClassLoader().getResource("image/icon.png");
-        if (url != null)
-            sfmWindow.setIconImage(new ImageIcon(url.getPath()).getImage()); // YOUR Stupid Code had FIXED!! @TranXStar
+        InputStream inputImage = Main.class.getResourceAsStream("/image/icon.png");
 
+        // 创建对象
+        Path imageFilePath = null;
+        try {
+            imageFilePath = Files.createTempFile("icon", ".png");
+            // 将模型复制到系统临时文件夹
+            if (inputImage != null) {
+                Files.copy(inputImage, imageFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+
+        // 托盘
+        TrayIcon trayIcon;
+
+        if (imageFilePath != null) {
+            sfmWindow.setIconImage(new ImageIcon(imageFilePath.toString()).getImage());
+            trayIcon = new TrayIcon(new ImageIcon(imageFilePath.toString()).getImage(), NAME);
+        } else {
+            trayIcon = null;
+        }
+
+        SystemTray tray = SystemTray.getSystemTray();
+        if (trayIcon != null) {
+            trayIcon.setImageAutoSize(true);
+            trayIcon.setToolTip(NAME);
+        }
         sfmWindow.setVisible(true);
         sfmWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,7 +144,7 @@ public class Main {
                     Thread.sleep(10000L);
                 } catch (InterruptedException e) {
                 }
-                tips();
+                tips(tray, trayIcon);
             }
         }).start();
 
@@ -202,22 +226,11 @@ public class Main {
         return image2;
     }
 
-    private static void tips() {
-        TrayIcon trayIcon = null;
-
-        URL url = Main.class.getClassLoader().getResource("image/icon.png");
-        if (url != null)
-            trayIcon = new TrayIcon(new ImageIcon(url.getPath()).getImage(), NAME);
-
-        SystemTray tray = SystemTray.getSystemTray();
+    private static void tips(SystemTray tray, TrayIcon trayIcon) {
         try {
-            trayIcon.setImageAutoSize(true);
-            trayIcon.setToolTip("System tray icon demo");
             tray.add(trayIcon);
-        } catch (AWTException e) {
-        }
+        } catch (AWTException ignored) {}
 
-        if (url != null)
-            trayIcon.displayMessage(NAME, looking ? "学生正常上课" : "学生视线偏移", TrayIcon.MessageType.INFO);
+        trayIcon.displayMessage(NAME, looking ? "学生正常上课" : "学生视线偏移", TrayIcon.MessageType.INFO);
     }
 }
