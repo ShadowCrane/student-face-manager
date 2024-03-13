@@ -3,6 +3,9 @@ package cn.shadowtranx.sfm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bytedeco.javacpp.Loader;
+import org.bytedeco.opencv.global.opencv_core;
+import org.bytedeco.opencv.global.opencv_highgui;
+import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.*;
 import org.bytedeco.opencv.opencv_objdetect.CascadeClassifier;
 import org.bytedeco.opencv.opencv_videoio.VideoCapture;
@@ -10,9 +13,14 @@ import org.bytedeco.opencv.opencv_videoio.VideoCapture;
 import javax.swing.*;
 import java.awt.*;
 import org.bytedeco.opencv.opencv_core.Point;
+import org.opencv.videoio.Videoio;
 
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
@@ -28,60 +36,82 @@ public class Main {
 
     public static void main(String[] args) {
         logger.info(NAME + " " + VERSION + " 正在加载，由 " + OWNER + " 驱动。");
-        // Toolkit
+        // 图标
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
 
-        // Get screen size
+        // 获取显示器分辨率
         double width = screenSize.width;
         double height = screenSize.height;
 
-        // Computing window size
+        // 计算窗口大小
         width = width * 0.33333;
         height = height * 0.37037;
         width = Math.round(width);
         height = Math.round(height);
 
-        // Create window
+        // 创建窗口
         JFrame sfmWindow = new JFrame(NAME + " " + VERSION);
         JLabel label = new JLabel();
         sfmWindow.add(label);
 
         URL url = Main.class.getClassLoader().getResource("image/icon.png");
         if (url != null)
-            sfmWindow.setIconImage(new ImageIcon(url.getPath()).getImage()); // YOUR Stupid Code had FIXED!!
+            sfmWindow.setIconImage(new ImageIcon(url.getPath()).getImage()); // YOUR Stupid Code had FIXED!! @TranXStar
 
         sfmWindow.setVisible(true);
         sfmWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // Set window size
-        sfmWindow.setSize((int) width,(int) height);
+        // 设置窗口大小
+        sfmWindow.setSize((int) width, (int) height);
+
+        sfmWindow.setLocationRelativeTo(null);
         logger.info("窗口已创建。");
 
 
-        // OpenCV
-        Loader.load(org.bytedeco.opencv.global.opencv_core.class);
-        Loader.load(org.bytedeco.opencv.global.opencv_imgproc.class);
-        Loader.load(org.bytedeco.opencv.global.opencv_highgui.class);
+        // OpenCV 部分
+        Loader.load(opencv_core.class);
+        Loader.load(opencv_imgproc.class);
+        Loader.load(opencv_highgui.class);
 
-        // 加载人脸检测器和姿态估计器
+        // 从JAR获取文件的输入流
+        InputStream inputStreamFace = Main.class.getResourceAsStream("/haarcascade_frontalface_default.xml");
+        InputStream inputStreamEye = Main.class.getResourceAsStream("/haarcascade_eye.xml");
+
+        // 创建对象
+        Path faceModelFilePath = null;
+        Path eyeModelFilePath = null;
+        try {
+            faceModelFilePath = Files.createTempFile("haarcascade_frontalface_default", ".xml");
+            eyeModelFilePath = Files.createTempFile("haarcascade_eye", ".xml");
+            // 将模型复制到系统临时文件夹
+            if (inputStreamEye != null & inputStreamFace != null) {
+                Files.copy(inputStreamFace, faceModelFilePath, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStreamEye, eyeModelFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+
+        // 加载模型
         CascadeClassifier faceDetector = new CascadeClassifier();
         CascadeClassifier eyeDetector = new CascadeClassifier();
-        faceDetector.load(Objects.requireNonNull(Main.class.getResource("/haarcascade_frontalface_default.xml")).getPath().startsWith("/") ?
-                Objects.requireNonNull(Main.class.getResource("/haarcascade_frontalface_default.xml")).getPath().substring(1) :
-                Objects.requireNonNull(Main.class.getResource("/haarcascade_frontalface_default.xml")).getPath());
-        eyeDetector.load(Objects.requireNonNull(Main.class.getResource("/haarcascade_eye.xml")).getPath().startsWith("/") ?
-                Objects.requireNonNull(Main.class.getResource("/haarcascade_eye.xml")).getPath().substring(1) :
-                Objects.requireNonNull(Main.class.getResource("/haarcascade_eye.xml")).getPath());
-
+        if (faceModelFilePath != null & eyeModelFilePath != null) {
+            faceDetector.load(faceModelFilePath.toString());
+            eyeDetector.load(eyeModelFilePath.toString());
+        }
 
 
         VideoCapture capture = new VideoCapture(0);
 
         if (!capture.isOpened()) {
-           logger.error("摄像头无法打开。");
+            logger.error("摄像头无法打开。");
             return;
         }
+
+        // 重新设置窗口大小 设置成摄像头分辨率
+        sfmWindow.setSize((int) capture.get(Videoio.CAP_PROP_FRAME_WIDTH), (int) capture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
+        sfmWindow.setLocationRelativeTo(null);
 
         Mat frameMat = new Mat();
         while (true) {
@@ -117,7 +147,7 @@ public class Main {
                             FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0, 0));
 
                     putText(frameMat, "Looking", new Point(face.x(), face.y() - 30),
-                                FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0, 0));
+                            FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0, 0));
 
 
                 }
@@ -142,7 +172,7 @@ public class Main {
                 break;
             case 3:
                 type = BufferedImage.TYPE_3BYTE_BGR;
-                // bgr to rgb
+                // bgr 2 rgb
                 byte b;
                 for (int i = 0; i < data.length; i = i + 3) {
                     b = data[i];
