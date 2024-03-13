@@ -18,6 +18,7 @@ import org.opencv.videoio.Videoio;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -32,10 +33,12 @@ public class Main {
     public static final String VERSION = "v1.0";
     public static final String OWNER = "ShadowTranX-Team";
 
+    public static boolean looking = false;
+
     public static Logger logger = LogManager.getLogger("SFM");
 
     public static void main(String[] args) {
-        logger.info(NAME + " " + VERSION + " 正在加载，由 " + OWNER + " 驱动。");
+        logger.info(NAME + " " + VERSION + " 正在加载，由 " + OWNER + " 驱动. ");
         // 图标
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
@@ -66,8 +69,6 @@ public class Main {
         sfmWindow.setSize((int) width, (int) height);
 
         sfmWindow.setLocationRelativeTo(null);
-        logger.info("窗口已创建。");
-
 
         // OpenCV 部分
         Loader.load(opencv_core.class);
@@ -105,13 +106,23 @@ public class Main {
         VideoCapture capture = new VideoCapture(0);
 
         if (!capture.isOpened()) {
-            logger.error("摄像头无法打开。");
+            logger.error("摄像头无法打开. ");
             return;
         }
 
         // 重新设置窗口大小 设置成摄像头分辨率
         sfmWindow.setSize((int) capture.get(Videoio.CAP_PROP_FRAME_WIDTH), (int) capture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
         sfmWindow.setLocationRelativeTo(null);
+
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(10000L);
+                } catch (InterruptedException e) {
+                }
+                tips();
+            }
+        }).start();
 
         Mat frameMat = new Mat();
         while (true) {
@@ -121,6 +132,8 @@ public class Main {
             faceDetector.detectMultiScale(frameMat, faces);
 
             for (int i = 0; i < faces.size(); i++) {
+                looking = true;
+
                 Rect face = faces.get(i);
                 Mat faceROI = new Mat(frameMat, face);
 
@@ -150,7 +163,7 @@ public class Main {
                             FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0, 0));
 
 
-                }
+                } else looking = false;
             }
 
             BufferedImage image = matToBufferedImage(frameMat);
@@ -187,5 +200,24 @@ public class Main {
         BufferedImage image2 = new BufferedImage(cols, rows, type);
         image2.getRaster().setDataElements(0, 0, cols, rows, data);
         return image2;
+    }
+
+    private static void tips() {
+        TrayIcon trayIcon = null;
+
+        URL url = Main.class.getClassLoader().getResource("image/icon.png");
+        if (url != null)
+            trayIcon = new TrayIcon(new ImageIcon(url.getPath()).getImage(), NAME);
+
+        SystemTray tray = SystemTray.getSystemTray();
+        try {
+            trayIcon.setImageAutoSize(true);
+            trayIcon.setToolTip("System tray icon demo");
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+        }
+
+        if (url != null)
+            trayIcon.displayMessage(NAME, looking ? "学生正常上课" : "学生视线偏移", TrayIcon.MessageType.INFO);
     }
 }
